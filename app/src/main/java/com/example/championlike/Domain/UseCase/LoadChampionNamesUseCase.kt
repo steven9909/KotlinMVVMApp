@@ -1,23 +1,12 @@
 package com.example.championlike.Domain.UseCase
 
-import com.example.championlike.Component.DaggerUseCaseComponent
-import com.example.championlike.Component.UseCaseComponent
-import com.example.championlike.Domain.ChampionRepository
-import com.example.championlike.Module.ChampionRepositoryModule
-import javax.inject.Inject
+import com.example.championlike.Data.Model.Champion
+import com.example.championlike.Data.Repository.ChampionRepositoryEndpoint
+import io.reactivex.Observable
 
-class LoadChampionNamesUseCase constructor(){
+class LoadChampionNamesUseCase constructor(val localRepository: ChampionRepositoryEndpoint){
 
-    @Inject
-    lateinit var repository:ChampionRepository
-
-    private lateinit var useCaseComponent: UseCaseComponent
-
-    init{
-        useCaseComponent = DaggerUseCaseComponent.builder().championRepositoryModule(ChampionRepositoryModule()).build()
-    }
-
-    fun execute(){
-
+    fun execute(): Observable<List<Champion>> {
+        return localRepository.getChampionNames()
     }
 }
